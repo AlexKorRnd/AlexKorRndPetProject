@@ -2,13 +2,16 @@
 androidGradlePlugin = "7.4.1"
 kotlin = "1.8.0"
 kotlinxSerialization = "1.4.1"
+kotlinxCoroutines = "1.6.4"
 
 androidxActivity = "1.6.1"
 androidxCore = "1.9.0"
-androidxLifecycle = "2.5.1"
+androidxLifecycle = "2.6.0-alpha01"
 androidxComposeBom = "2022.10.00"
 
 retrofit = "2.9.0"
+retrofitSerialization = "0.8.0"
+okhttp = "4.10.0"
 hilt = "2.45"
 
 [libraries]
@@ -29,8 +32,11 @@ androidx-compose-foundation = { group = "androidx.compose.foundation", name = "f
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-adapter-kotlinserialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofitSerialization"}
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }

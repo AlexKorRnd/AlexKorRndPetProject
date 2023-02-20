@@ -6,9 +6,16 @@ plugins {
     alias libs.plugins.hilt
 }
 
+android {
+    compileSdk 33
+    namespace 'ru.alexkorrnd.petproject.core.network'
+}
+
 dependencies {
     implementation libs.kotlinx.serialization
     implementation libs.retrofit
+    implementation libs.retrofit.adapter.kotlinserialization
+    implementation libs.okhttp.logging
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler

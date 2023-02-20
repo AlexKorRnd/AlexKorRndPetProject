@@ -4,11 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import ru.alexkorrnd.petproject.core.data.kinopoisk.repository.KinopoiskRepository
 import ru.alexkorrnd.petproject.core.data.kinopoisk.repository.KinopoiskRepositoryImpl
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 internal interface KinopoiskDataModule {
 
     @Binds

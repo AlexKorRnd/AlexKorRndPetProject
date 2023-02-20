@@ -1,0 +1,14 @@
+plugins {
+    alias libs.plugins.kotlin.android
+    alias libs.plugins.android.library
+}
+
+android {
+    compileSdk 33
+    namespace 'ru.alexkorrnd.petproject.core.utils'
+}
+
+dependencies {
+    implementation libs.androidx.core.ktx
+    implementation libs.kotlinx.coroutines.core
+}

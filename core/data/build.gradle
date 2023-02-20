@@ -5,6 +5,11 @@ plugins {
     alias libs.plugins.hilt
 }
 
+android {
+    namespace 'ru.alexkorrnd.petproject.core.data'
+    compileSdk 33
+}
+
 dependencies {
     implementation project(":core:network")
 

@@ -5,20 +5,28 @@ plugins {
     alias libs.plugins.hilt
 }
 
+android {
+    compileSdk 33
+    namespace 'ru.alexkorrnd.petproject.feature.kinopoisk'
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.0'
+    }
+}
+
 dependencies {
     implementation project(":core:data")
+    implementation project(":core:utils")
+    implementation project(":core:designsystem")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.lifecycle.runtimeKtx
-    implementation libs.androidx.activity.compose
-    implementation platform(libs.androidx.compose.bom)
-    implementation libs.androidx.compose.ui
-    implementation libs.androidx.compose.ui.tooling.preview
-    implementation libs.androidx.compose.material
+    implementation libs.androidx.lifecycle.viewModelCompose
+    implementation libs.androidx.lifecycle.runtimeCompose
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler
 
-    debugImplementation libs.androidx.compose.ui.tooling
-    debugImplementation libs.androidx.compose.ui.testManifest
 }

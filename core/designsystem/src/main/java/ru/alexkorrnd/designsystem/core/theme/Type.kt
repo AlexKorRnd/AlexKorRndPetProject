@@ -1,4 +1,4 @@
-package ru.alexkorrnd.petproject.ui.theme
+package ru.alexkorrnd.designsystem.core.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

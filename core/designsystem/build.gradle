@@ -1,0 +1,27 @@
+plugins {
+    alias libs.plugins.kotlin.android
+    alias libs.plugins.android.library
+}
+
+android {
+    compileSdk 33
+    namespace 'ru.alexkorrnd.petproject.core.designsystem'
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.0'
+    }
+}
+
+dependencies {
+    api platform(libs.androidx.compose.bom)
+    api libs.androidx.compose.ui
+    api libs.androidx.compose.ui.tooling.preview
+    api libs.androidx.compose.material
+
+    androidTestApi platform(libs.androidx.compose.bom)
+
+    debugApi libs.androidx.compose.ui.tooling
+    debugApi libs.androidx.compose.ui.testManifest
+}

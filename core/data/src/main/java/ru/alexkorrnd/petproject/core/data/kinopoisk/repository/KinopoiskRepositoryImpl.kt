@@ -5,6 +5,8 @@ import ru.alexkorrnd.petproject.core.data.kinopoisk.model.Movie
 import ru.alexkorrnd.petproject.core.data.kinopoisk.model.asMovie
 import javax.inject.Inject
 
+private const val TOP_FILMS_TYPE = "TOP_100_POPULAR_FILMS"
+
 internal class KinopoiskRepositoryImpl @Inject constructor(
     private val kinopoiskServiceLazy: dagger.Lazy<KinopoiskService>
 ) : KinopoiskRepository {
@@ -13,8 +15,8 @@ internal class KinopoiskRepositoryImpl @Inject constructor(
         kinopoiskServiceLazy.get()
     }
 
-    override suspend fun loadMovies(type: String, page: Int): List<Movie> {
-        return kinopoiskService.loadMovies(type, page)
+    override suspend fun loadTopMovies(page: Int): List<Movie> {
+        return kinopoiskService.loadMovies(TOP_FILMS_TYPE, page)
             .movies.map { it.asMovie() }
     }
 }
