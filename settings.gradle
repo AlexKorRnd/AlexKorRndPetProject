@@ -14,3 +14,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AlexKorRndPetProject"
 include ':app'
+include ':feature:kinopoisk'
+include ':core:data'
+
+include ':core:network'

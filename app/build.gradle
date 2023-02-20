@@ -1,6 +1,8 @@
 plugins {
     alias libs.plugins.android.application
     alias libs.plugins.kotlin.android
+    alias libs.plugins.kotlin.kapt
+    alias libs.plugins.hilt
 }
 
 android {
@@ -54,6 +56,9 @@ dependencies {
     implementation libs.androidx.compose.ui
     implementation libs.androidx.compose.ui.tooling.preview
     implementation libs.androidx.compose.material
+
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation platform(libs.androidx.compose.bom)
