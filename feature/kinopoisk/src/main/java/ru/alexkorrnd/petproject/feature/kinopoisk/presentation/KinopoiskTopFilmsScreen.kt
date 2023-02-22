@@ -1,23 +1,28 @@
 package ru.alexkorrnd.petproject.feature.kinopoisk.presentation
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_4_XL
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.alexkorrnd.designsystem.core.theme.AlexKorRndPetProjectTheme
 import ru.alexkorrnd.petproject.core.data.kinopoisk.model.Movie
 import ru.alexkorrnd.petproject.core.data.kinopoisk.model.previewsMovies
@@ -40,36 +45,47 @@ fun KinopoiskTopFilmsScreen(
     state: TopFilmsUiState,
     modifier: Modifier = Modifier
 ) {
-    when(state) {
-        is TopFilmsUiState.Loading -> {
-            Text(text = "Загружаем данные...")
-        }
-        is TopFilmsUiState.Success -> {
-            SuccessState(state, modifier)
-        }
-        is TopFilmsUiState.Error -> {
-            ErrorState(state, modifier)
+    Column(
+        modifier = modifier
+    ) {
+        when (state) {
+            is TopFilmsUiState.Loading -> {
+                Text(text = "Загружаем данные...")
+            }
+            is TopFilmsUiState.Success -> {
+                SuccessState(state, modifier)
+            }
+            is TopFilmsUiState.Error -> {
+                ErrorState(state, modifier)
+            }
         }
     }
 }
+
+
 
 @Composable
 fun SuccessState(
     state: TopFilmsUiState.Success,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier)  {
+    LazyColumn(
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        modifier = modifier
+    ) {
         items(
             items = state.films.toTypedArray(),
             key = { it.id }
-        ) {movie ->
+        ) { movie ->
             MovieItem(
                 movie = movie,
-                modifier = Modifier.padding(24.dp)
             )
         }
     }
 }
+
+private val CARD_CONTENT_MIN_HEIGHT = 63.dp
 
 @Composable
 fun MovieItem(
@@ -77,17 +93,37 @@ fun MovieItem(
     modifier: Modifier = Modifier
 ) {
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(15.dp),
         modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 93.dp)
     ) {
-        Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(start = 16.dp, top = 15.dp, end = 16.dp, bottom = 15.dp),
+        ) {
             Image(
                 painter = painterResource(ru.alexkorrnd.petproject.core.designsystem.R.drawable.test_image),
-                contentDescription = null
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(width = 40.dp, height = CARD_CONTENT_MIN_HEIGHT)
+                    .clip(RoundedCornerShape(5.dp))
             )
-            Row {
-                Text(text = movie.name)
-                Text(text = movie.year)
+            Spacer(modifier = Modifier.size(15.dp))
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .heightIn(min = CARD_CONTENT_MIN_HEIGHT),
+            ) {
+                Text(
+                    text = movie.name,
+                    style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium),
+                )
+                Text(
+                    text = movie.year,
+                    style = MaterialTheme.typography.body2,
+                )
             }
         }
     }
@@ -104,9 +140,27 @@ fun ErrorState(
     )
 }
 
-@Preview(name = "phone", device = "spec:shape=Normal,width=360,height=640,unit=dp,dpi=480")
+@RequiresApi(Build.VERSION_CODES.FROYO)
+@Preview(name = "night", showBackground = true, device = PIXEL_4_XL, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun KinopoiskTopFilmsScreenSuccessPreview() {
+fun KinopoiskTopFilmsScreenSuccessPreviewNight() {
+    AlexKorRndPetProjectTheme {
+        KinopoiskTopFilmsScreen(
+            state = TopFilmsUiState.Success(previewsMovies)
+        )
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.FROYO)
+@Preview(
+    name = "day",
+    showBackground = true,
+    device = PIXEL_4_XL,
+    backgroundColor = 0xFFFFFF,
+    uiMode = UI_MODE_NIGHT_NO
+)
+@Composable
+fun KinopoiskTopFilmsScreenSuccessPreviewDay() {
     AlexKorRndPetProjectTheme {
         KinopoiskTopFilmsScreen(
             state = TopFilmsUiState.Success(previewsMovies)

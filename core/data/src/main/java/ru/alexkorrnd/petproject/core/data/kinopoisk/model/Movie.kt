@@ -17,13 +17,13 @@ val previewsMovies = listOf(
         previewUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4370148.jpg"
     ),
     Movie(
-        id = 4370148,
+        id = 4370149,
         name = "Аватар: Путь воды",
         year = "2022",
         previewUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/505898.jpg"
     ),
     Movie(
-        id = 4370148,
+        id = 4370150,
         name = "Кот в сапогах 2: Последнее желание",
         year = "2022",
         previewUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/840821.jpg"
