@@ -3,8 +3,8 @@ package ru.alexkorrnd.petproject.feature.kinopoisk.presentation
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_4_XL
@@ -23,6 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
+import ru.alexkorrnd.designsystem.core.DesignSystemDrawable
+import ru.alexkorrnd.designsystem.core.shimmers.ShimmerAnimation
 import ru.alexkorrnd.designsystem.core.theme.AlexKorRndPetProjectTheme
 import ru.alexkorrnd.petproject.core.data.kinopoisk.model.Movie
 import ru.alexkorrnd.petproject.core.data.kinopoisk.model.previewsMovies
@@ -63,7 +68,6 @@ fun KinopoiskTopFilmsScreen(
 }
 
 
-
 @Composable
 fun SuccessState(
     state: TopFilmsUiState.Success,
@@ -86,6 +90,11 @@ fun SuccessState(
 }
 
 private val CARD_CONTENT_MIN_HEIGHT = 63.dp
+private val IMAGE_WIDTH = 40.dp
+private val imageShape = RoundedCornerShape(5.dp)
+private val imageModifier = Modifier
+    .size(width = IMAGE_WIDTH, height = CARD_CONTENT_MIN_HEIGHT)
+    .clip(imageShape)
 
 @Composable
 fun MovieItem(
@@ -102,13 +111,30 @@ fun MovieItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(start = 16.dp, top = 15.dp, end = 16.dp, bottom = 15.dp),
         ) {
-            Image(
-                painter = painterResource(ru.alexkorrnd.petproject.core.designsystem.R.drawable.test_image),
-                contentDescription = null,
+            SubcomposeAsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(movie.previewUrl)
+                    .crossfade(true)
+                    .build(),
+                loading = {
+                    ShimmerAnimation(
+                        modifier = imageModifier,
+                        shape = imageShape
+                    )
+                },
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(width = 40.dp, height = CARD_CONTENT_MIN_HEIGHT)
-                    .clip(RoundedCornerShape(5.dp))
+                error = {
+                    Icon(
+                        painter = painterResource(id = DesignSystemDrawable.baseline_image_24),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.secondary
+                    )
+                },
+                onError = {
+                    Log.e("test____", it.result.throwable.message ?: "", it.result.throwable)
+                },
+                modifier = imageModifier,
+                contentDescription = null,
             )
             Spacer(modifier = Modifier.size(15.dp))
             Column(
